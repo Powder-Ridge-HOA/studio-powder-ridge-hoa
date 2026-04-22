@@ -56,6 +56,7 @@ const featureGrid = {
         fields: [
           defineField({ name: 'title', title: 'Title', type: 'string' }),
           defineField({ name: 'description', title: 'Description', type: 'text' }),
+          defineField({ name: 'url', title: 'Link (optional)', description: 'If set, the card becomes clickable', type: 'string' }),
           iconPickerField,
         ],
         preview: {
@@ -373,6 +374,108 @@ const teamProjectsSection = {
   },
 };
 
+const boardMemberGrid = {
+  type: 'object',
+  name: 'boardMemberGrid',
+  title: 'Board Member Grid',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'Board Members', subtitle: 'Pulls from Board Member documents' };
+    },
+  },
+};
+
+const ccrList = {
+  type: 'object',
+  name: 'ccrList',
+  title: 'CCR List',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'CCRs', subtitle: 'Pulls from CCR documents' };
+    },
+  },
+};
+
+const minutesArchive = {
+  type: 'object',
+  name: 'minutesArchive',
+  title: 'Board Minutes Archive',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'Board Minutes', subtitle: 'Pulls from Board Minutes documents' };
+    },
+  },
+};
+
+const faqList = {
+  type: 'object',
+  name: 'faqList',
+  title: 'FAQ List',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'FAQs', subtitle: 'Pulls from FAQ documents' };
+    },
+  },
+};
+
+const committeePanel = {
+  type: 'object',
+  name: 'committeePanel',
+  title: 'Committee Panel',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+    defineField({
+      name: 'committee',
+      title: 'Committee',
+      type: 'reference',
+      to: [{ type: 'committee' }],
+    }),
+  ],
+  preview: {
+    select: { heading: 'heading', committee: 'committee.name' },
+    prepare({ heading, committee }: { heading?: string; committee?: string }) {
+      return { title: heading || committee || 'Committee', subtitle: 'Pulls a single Committee document' };
+    },
+  },
+};
+
+const residentDirectory = {
+  type: 'object',
+  name: 'residentDirectory',
+  title: 'Resident Directory',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string' }),
+    defineField({ name: 'subheading', title: 'Section Subheading', type: 'string' }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'Directory', subtitle: 'Pulls from Resident documents' };
+    },
+  },
+};
+
 // ─── Page document type ──────────────────────────────────────────────────────
 
 export default defineType({
@@ -414,6 +517,12 @@ export default defineType({
         textContent,
         portfolioSection,
         teamProjectsSection,
+        boardMemberGrid,
+        ccrList,
+        minutesArchive,
+        residentDirectory,
+        faqList,
+        committeePanel,
       ],
     }),
   ],

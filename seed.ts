@@ -1,10 +1,11 @@
 // Seed script — pre-populate Sanity with initial content
 // Run: npx sanity exec seed.ts --with-user-token
 import { getCliClient } from 'sanity/cli'
+import type { IdentifiedSanityDocumentStub } from '@sanity/client'
 
 const client = getCliClient()
 
-const documents = [
+const documents: IdentifiedSanityDocumentStub[] = [
   {
     "_type": "siteSettings",
     "_id": "siteSettings",

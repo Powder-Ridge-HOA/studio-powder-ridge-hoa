@@ -16,7 +16,9 @@ export default defineType({
     defineField({
       name: 'logo',
       title: 'Site logo displayed in header',
+      description: 'SVG with transparent background. Colors automatically invert for dark theme.',
       type: 'image',
+      options: { hotspot: true },
     }),
     defineField({
       name: 'authEnabled',
