@@ -374,6 +374,60 @@ const teamProjectsSection = {
   },
 };
 
+const communityInfo = {
+  type: 'object',
+  name: 'communityInfo',
+  title: 'Community at a Glance',
+  description: 'A clean label/value grid for important HOA quick facts (dues, address, ordinances, etc.). Replaces the older Quick Links cards on the home page.',
+  fields: [
+    defineField({ name: 'heading', title: 'Section Heading', type: 'string', initialValue: 'Community at a Glance' }),
+    defineField({
+      name: 'items',
+      title: 'Info Items',
+      description: 'Each item has a bold label and a value. Optionally add an inline link at the end of the value.',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'communityInfoItem',
+        fields: [
+          defineField({ name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required() }),
+          defineField({
+            name: 'value',
+            title: 'Value',
+            description: 'Plain text. Line breaks are preserved.',
+            type: 'text',
+            rows: 3,
+          }),
+          defineField({
+            name: 'linkLabel',
+            title: 'Inline Link Text (optional)',
+            description: 'If set, an inline link appears at the end of the value.',
+            type: 'string',
+          }),
+          defineField({
+            name: 'linkUrl',
+            title: 'Inline Link URL (optional)',
+            description: 'Internal path like "/board-members" or external URL.',
+            type: 'string',
+          }),
+        ],
+        preview: {
+          select: { title: 'label', subtitle: 'value' },
+          prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
+            return { title: title || 'Untitled item', subtitle: subtitle || '' }
+          },
+        },
+      }],
+    }),
+  ],
+  preview: {
+    select: { heading: 'heading' },
+    prepare({ heading }: { heading?: string }) {
+      return { title: heading || 'Community at a Glance', subtitle: 'Info grid' }
+    },
+  },
+};
+
 const boardMemberGrid = {
   type: 'object',
   name: 'boardMemberGrid',
@@ -523,6 +577,7 @@ export default defineType({
         residentDirectory,
         faqList,
         committeePanel,
+        communityInfo,
       ],
     }),
   ],
