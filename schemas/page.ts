@@ -374,6 +374,68 @@ const teamProjectsSection = {
   },
 };
 
+const mediaImage = {
+  type: 'object',
+  name: 'mediaImage',
+  title: 'Image / Map',
+  description: 'A standalone image block — useful for subdivision maps, plat drawings, or any single-image content. Editor sets the image and an optional caption.',
+  fields: [
+    defineField({
+      name: 'heading',
+      title: 'Section Heading (optional)',
+      description: 'Shown above the image. Leave blank for an unlabeled image block.',
+      type: 'string',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: { hotspot: true },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'alt',
+      title: 'Alt Text',
+      description: 'Describe the image for screen readers. Required for accessibility.',
+      type: 'string',
+      validation: (Rule) => Rule.required().min(3),
+    }),
+    defineField({
+      name: 'caption',
+      title: 'Caption (optional)',
+      description: 'Short text shown beneath the image (e.g., source, date, or a one-line description).',
+      type: 'text',
+      rows: 2,
+    }),
+    defineField({
+      name: 'width',
+      title: 'Width',
+      description: 'How wide the image renders on the page.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Narrow (max 640px)', value: 'narrow' },
+          { title: 'Normal (max 960px)', value: 'normal' },
+          { title: 'Wide (max 1280px)', value: 'wide' },
+          { title: 'Full (edge to edge)', value: 'full' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'normal',
+    }),
+  ],
+  preview: {
+    select: { heading: 'heading', alt: 'alt', media: 'image' },
+    prepare({ heading, alt, media }: { heading?: string; alt?: string; media?: any }) {
+      return {
+        title: heading || alt || 'Image',
+        subtitle: heading && alt ? alt : 'Standalone image block',
+        media,
+      }
+    },
+  },
+};
+
 const communityInfo = {
   type: 'object',
   name: 'communityInfo',
@@ -578,6 +640,7 @@ export default defineType({
         faqList,
         committeePanel,
         communityInfo,
+        mediaImage,
       ],
     }),
   ],

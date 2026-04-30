@@ -1,9 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { HiUserCircle } from 'react-icons/hi2'
 
 export default defineType({
   name: 'resident',
   title: 'Resident',
   type: 'document',
+  icon: HiUserCircle,
   fields: [
     defineField({ name: 'firstname', title: 'First Name', type: 'string' }),
     defineField({ name: 'lastname', title: 'Last Name', type: 'string' }),
@@ -36,5 +38,30 @@ export default defineType({
     }),
     defineField({ name: 'notes', title: 'Notes (internal)', type: 'text' }),
     defineField({ name: 'groupmembership', title: 'Group Membership', type: 'string' }),
-  ]
+  ],
+
+  preview: {
+    select: {
+      firstname: 'firstname',
+      lastname: 'lastname',
+      organization: 'organization',
+      address: 'address',
+    },
+    prepare({ firstname, lastname, organization, address }: {
+      firstname?: string
+      lastname?: string
+      organization?: string
+      address?: string
+    }) {
+      const personName = [firstname, lastname].filter(Boolean).join(' ').trim()
+      const title = personName || organization || 'Unnamed resident'
+      const subtitleParts: string[] = []
+      if (address) subtitleParts.push(address)
+      if (personName && organization) subtitleParts.push(organization)
+      return {
+        title,
+        subtitle: subtitleParts.join(' · '),
+      }
+    },
+  },
 })
